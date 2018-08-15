@@ -10,6 +10,7 @@ click = "*"
 dash = "*"
 dash-core-components = "*"
 dash-html-components = "*"
+gunicorn = "*"
 
 [dev-packages]
 ipython = "*"
