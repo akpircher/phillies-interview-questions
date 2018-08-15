@@ -7,9 +7,14 @@ name = "pypi"
 pandas = "*"
 lxml = "*"
 click = "*"
+dash = "*"
+dash-core-components = "*"
+dash-html-components = "*"
 
 [dev-packages]
 ipython = "*"
+pylint = "*"
+rope = "*"
 
 [requires]
 python_version = "3.6"
