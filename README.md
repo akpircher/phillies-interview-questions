@@ -6,6 +6,7 @@ WEB APP INSTRUCTIONS:
 1. Go to https://secure-wildwood-80146.herokuapp.com/
 2. Select the year you want to calculate the qualilfying offer for from the available years
 3. Select the how many salaries you want to average based on the qualifying offer rule (default is 125)
+4. Click "Reload Data" to refresh the database
 
 Notes:
     The graph will update only when the year is changed.
@@ -45,3 +46,8 @@ How to use the configurable options (numbers provided are examples, any number w
     pipenv run qualifying_offer --top 250 calculate
     - or -
     pipenv run qualifying_offer -t 250 calculate
+
+
+Non-documentation link used:
+I used the following to figure out how to use hidden values to reload data in the web-page
+https://github.com/plotly/dash/issues/49#issuecomment-311511286
