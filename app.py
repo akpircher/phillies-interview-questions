@@ -15,7 +15,7 @@ server = app.server
 # Define the webpage layout
 app.layout = html.Div([
     html.H1(children='Calculate Qualifying Offer'),
-    html.H2(children='Select year and whether you want to include duplicates in calculation'),
+    html.H2(children='Select year and the number of salaries to average'),
     html.Div([
         # Choose what year to get qualifying offer for
         html.Label('Year'),
