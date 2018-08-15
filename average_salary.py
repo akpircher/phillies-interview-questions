@@ -13,10 +13,16 @@ def get_salary_data():
     return df
 
 
-def top_salaries(df, top=125, duplicates=True):
+def filter_year(df, year=2016):
+    return df.loc[df.Year == year]
+
+
+def top_salaries(df, top=125, year=2016, duplicates=True):
+    # Filter the salaries for just this year
+    this_year = df.loc[df.Year == year]
     if duplicates:
-        return df.Salary.sort_values().head(top)
-    return df.Salary.nlargest(top)
+        return this_year.Salary.sort_values(ascending=False).head(top)
+    return this_year.Salary.nlargest(top)
 
 
 def average(salaries):
@@ -31,6 +37,8 @@ if __name__ == '__main__':
     # Retrieve the salary data from the database
     df = get_salary_data()
 
+    filtered = filter_year(df, df.Year.unique().max())
+
     # Get the top n salaries, either with or without duplicates
     salaries = top_salaries(df)
 
@@ -39,4 +47,4 @@ if __name__ == '__main__':
     stddev = standard_deviation(salaries)
 
     # Display the data
-    print('The qualifying offer is ${:,} \xB1 ${:,}'.format(qualifying_offer, stddev))
+    print('The qualifying offer is ${:,.2f} \xB1 ${:,.2f}'.format(qualifying_offer, stddev))
