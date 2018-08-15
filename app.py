@@ -45,7 +45,7 @@ app.layout = html.Div([
     # Reload the data
     html.H2(children='Refresh data'),
     html.Button('Reload Data', id='reload-button')
-], style={'font': 'Arial'})
+])
 
 
 @app.callback(
