@@ -22,3 +22,4 @@ python_version = "3.6"
 
 [scripts]
 qualifying_offer = 'python qualifying_offer.py'
+average_salary = 'python average_salary.py'
