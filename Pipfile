@@ -1,0 +1,18 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+pandas = "*"
+lxml = "*"
+click = "*"
+
+[dev-packages]
+ipython = "*"
+
+[requires]
+python_version = "3.6"
+
+[scripts]
+qualifying_offer = 'python qualifying_offer.py'
