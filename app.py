@@ -5,15 +5,15 @@ import pandas as pd
 
 from average_salary import get_salary_data, filter_year, top_salaries, average, standard_deviation
 
+# Retrieve the salary data from the database
+df = get_salary_data()
+
 # Create the application
 app = dash.Dash('qualifying_offer')
 server = app.server
 
 # Define the webpage layout
 app.layout = html.Div([
-    # Store the dataframe as a hidden element
-    html.Div(id='reload-data', style={'display': 'none'}),
-
     # Title
     html.H1(children='Calculate Qualifying Offer'),
 
@@ -24,9 +24,10 @@ app.layout = html.Div([
         html.Label('Year'),
         dcc.Dropdown(
             id='year-dropdown',
-            # options=[{'label': str(year), 'value': year} for year in df.Year.unique()],
-            clearable=False
-            # value=df.Year.drop_duplicates().max(),
+            options=[{'label': str(year), 'value': year} for year in df.Year.unique()],
+            clearable=False,
+            value=df.Year.drop_duplicates().max(),
+
         ),
 
         # Checkbox to determine whether to use duplicates
@@ -40,60 +41,14 @@ app.layout = html.Div([
 
     # Informational visuals
     html.H2(children='Salary histogram'),
-    dcc.Graph(id='salary-distribution'),
-
-    # Reload the data
-    html.H2(children='Refresh data'),
-    html.Button('Reload Data', id='reload-button')
-])
-
-
-@app.callback(
-    dash.dependencies.Output('reload-data', 'children'),
-    [dash.dependencies.Input('reload-button', 'n_clicks')])
-def reload_data(clicks):
-    """
-    Ensure that the dataframe is reloaded on every refresh
-    """
-    data = get_salary_data()
-    return get_salary_data().to_json()
-
-
-@app.callback(
-    dash.dependencies.Output('year-dropdown', 'options'),
-    [dash.dependencies.Input('reload-button', 'n_clicks'),
-    dash.dependencies.Input('reload-data', 'children')])
-def get_years(clicks, json):
-    """
-    Get all of the years listed in the dataframe as a dropdown option
-    """
-    df = pd.read_json(json)
-    return [{'label': str(year), 'value': year} for year in df.Year.unique()]
-
-
-@app.callback(
-    dash.dependencies.Output('year-dropdown', 'value'),
-    [dash.dependencies.Input('reload-button', 'n_clicks'),
-    dash.dependencies.Input('reload-data', 'children')])
-def get_year_value(clicks, json):
-    """
-    Get the default year value for the dropdown
-    """
-    df = pd.read_json(json)
-    return df.Year.unique().max()
-
+    dcc.Graph(id='salary-distribution')
+], style={'fontFamily': 'sans-serif'})
 
 @app.callback(
     dash.dependencies.Output('qualifying-offer', 'children'),
-    [dash.dependencies.Input('reload-data', 'children'),
-    dash.dependencies.Input('year-dropdown', 'value'),
+    [dash.dependencies.Input('year-dropdown', 'value'),
     dash.dependencies.Input('qualifying-limit', 'value')])
-def calculate(json, year, nlargest):
-    """
-    Calculate the qualifying offer
-    """
-    df = pd.read_json(json)
-
+def calculate(year, nlargest):
     # Filter salaries by year
     filtered = filter_year(df, year)
 
@@ -110,14 +65,11 @@ def calculate(json, year, nlargest):
 
 @app.callback(
     dash.dependencies.Output('salary-distribution', 'figure'),
-    [dash.dependencies.Input('reload-data', 'children'),
-    dash.dependencies.Input('year-dropdown', 'value')])
-def update_graph(json, year):
+    [dash.dependencies.Input('year-dropdown', 'value')])
+def update_graph(year):
     """
     Update the histogram
     """
-    df = pd.read_json(json)
-
     # Filter the salaries by year
     filtered = filter_year(df, year)
 

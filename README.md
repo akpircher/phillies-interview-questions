@@ -6,7 +6,6 @@ WEB APP INSTRUCTIONS:
 1. Go to https://secure-wildwood-80146.herokuapp.com/
 2. Select the year you want to calculate the qualilfying offer for from the available years
 3. Select the how many salaries you want to average based on the qualifying offer rule (default is 125)
-4. Click "Reload Data" to refresh the database
 
 Notes:
     The graph will update only when the year is changed.
